@@ -9,12 +9,11 @@ export class SampleCdkEc2Stack extends cdk.Stack {
       vpcId: this.node.tryGetContext('vpc_id')
     });
 
-    const cidrIp = this.node.tryGetContext('cidr_ip');
     const securityGroup = new ec2.SecurityGroup(this, 'SecurityGroup', {
       vpc
     });
     securityGroup.addEgressRule(ec2.Peer.anyIpv4(), ec2.Port.allTraffic());
-    securityGroup.addIngressRule(ec2.Peer.ipv4(cidrIp), ec2.Port.tcp(22));
+    securityGroup.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(22));
 
     let ec2Instance = new ec2.CfnInstance(this, 'myInstance', {
       imageId: new ec2.AmazonLinuxImage({
