@@ -17,7 +17,9 @@ export class SampleCdkEc2Stack extends cdk.Stack {
     securityGroup.addIngressRule(ec2.Peer.ipv4(cidrIp), ec2.Port.tcp(22));
 
     let ec2Instance = new ec2.CfnInstance(this, 'myInstance', {
-      imageId: new ec2.AmazonLinuxImage().getImage(this).imageId,
+      imageId: new ec2.AmazonLinuxImage({
+        generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2
+      }).getImage(this).imageId,
       instanceType: new ec2.InstanceType('t3.small').toString(),
       networkInterfaces: [{
         associatePublicIpAddress: true,
